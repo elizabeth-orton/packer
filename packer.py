@@ -5,17 +5,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file", help="This is your unencrypted code file", type = str)
 parser.add_argument("-key", "-k", dest = "k", help = "Input your preferred key in integer form", required=True, type = int)
 parser.add_argument("-algorithm", "-a", dest = "a", nargs='?', choices = ["Multiplication", "Addition"], help = "Pick your encryption algorithm. Defaults to multiplication. Addition doesn't actually work yet.")
-parser.add_argument('-outfile', "-o", dest = "output", help ='Output file name', required = True, type = str)
+parser.add_argument('-outfile', "-o", dest = "output", help ="Output file name. Don't make this an existing file unless you want it to get overwritten.", required = True, type = str)
 args = parser.parse_args()
 #initial encryption algorithms
 def asciimultiplied(f, k):
     encrypted = []
     encrypted += [k*ord(i) for i in f]
     return encrypted
+#this is clunky now but it works
 def additionEncryption(f, k):
-    encrypted = """"""
+    encrypted = []
     for i in f:
-        encrypted = encrypted.__add__(chr((k + ord(i))%128))
+        encrypted += chr((k + ord(i))%128)
     return encrypted
 #gets unencrypted data
 with open(args.file) as data:
@@ -27,7 +28,7 @@ if args.a == "Multiplication" or args.a == None:
     #writes decryption algorithm to output file
     with open(args.output, "w") as t:
         t.write("""
-    def decrypt(f, k):
+def decrypt(f, k):
             decrypted = ""
             for i in f:
                 j = int(i/k)
@@ -35,6 +36,7 @@ if args.a == "Multiplication" or args.a == None:
             return decrypted
         """)
 elif args.a == "Addition":
+    print("You asked for it")
     cipher = additionEncryption(read_data, key)
     print(cipher)
     #writes decryption algorithm to output file
@@ -51,3 +53,5 @@ with open(args.output, "a") as t:
     t.write("\ncipher = " + str(cipher))
     t.write("\nkey =" + str(key))
     t.write("\nexec(decrypt(cipher, key))")
+
+
