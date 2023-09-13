@@ -4,7 +4,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="This is your unencrypted code file", type = str)
 parser.add_argument("-key", "-k", dest = "k", help = "Input your preferred key in integer form", required=True, type = int)
-parser.add_argument("-algorithm", "-a", dest = "a", nargs='?', choices = ["Multiplication", "Addition"], help = "Pick your encryption algorithm. Defaults to multiplication. Addition doesn't actually work yet.")
+parser.add_argument("-algorithm", "-a", dest = "a", nargs='?', choices = ["Multiplication", "Addition"], help = "Pick your encryption algorithm. Defaults to multiplication.")
 parser.add_argument('-outfile', "-o", dest = "output", help ="Output file name. Don't make this an existing file unless you want it to get overwritten.", required = True, type = str)
 args = parser.parse_args()
 #initial encryption algorithms
@@ -36,9 +36,7 @@ def decrypt(f, k):
             return decrypted
         """)
 elif args.a == "Addition":
-    print("You asked for it")
     cipher = additionEncryption(read_data, key)
-    print(cipher)
     #writes decryption algorithm to output file
     with open(args.output, "w") as t:
         t.write("""
