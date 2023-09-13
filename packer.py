@@ -33,6 +33,6 @@ if args.a == "ASCII multiplication" or args.a == None:
 with open(args.output, "a") as t:
     t.write("\ncipher = " + str(cipher))
     t.write("\nkey =" + str(key))
-    t.write("\nexec(decryptasciix(cipher, key))")
-
+    if args.a == "ASCII multiplation" or args.a == None:
+        t.write("\nexec(decryptasciix(cipher, key))")
 
