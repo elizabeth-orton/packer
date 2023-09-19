@@ -94,7 +94,6 @@ def restwrite(o, c, k):
         t.write("\ncipher = " + str(c))
         t.write("\nkey =" + str(k))
         t.write("\nexec(decrypt(cipher, key))")
-def test():
-    print("hello world")
+
 
 
