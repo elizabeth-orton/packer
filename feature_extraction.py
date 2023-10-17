@@ -1,11 +1,16 @@
 import argparse
+import os
+import json
 #takes in a file argument from command line
 #this could be expanded to a directory i just haven't done that yet
 parser = argparse.ArgumentParser()
-parser.add_argument("file")
+parser.add_argument("directory")
 args = parser.parse_args()
-f = args.file
-
+directory = args.directory
+filelist = []
+for subdir, dirs, files in os.walk(directory):
+    for file in files:
+        filelist.append(os.path.join(subdir, file))
 def fileDeal(file): #converts a file to just lowercase letters and changes all non-alpha characters to # (spaces are *)
     nfile = ""
     for char in file:
@@ -35,8 +40,16 @@ if featureDict == featureDictGoal:
     print("Success!")
 else:
     print("Not quite!")
-#this does the same transformation to the file from the command line
-with open(f) as file:
-    readfile = file.read()
-efvector = makeVector(readfile)
-print(efvector)
+#this does the same transformation on all the files in the directory in the command line
+for i in filelist:
+    try:
+        with open(i) as file:
+            readfile = file.read()
+        efvector = makeVector(readfile)
+        with open("vectorfile", "a") as vf:
+            vf.write(i)
+            vf.write("\n")
+            vf.write(json.dumps(efvector))
+            vf.write("\n")
+    except:
+        pass
