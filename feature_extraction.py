@@ -1,8 +1,8 @@
 import argparse
 import os
 import json
-#takes in a file argument from command line
-#this could be expanded to a directory i just haven't done that yet
+#takes in a directory argument from command line
+
 parser = argparse.ArgumentParser()
 parser.add_argument("directory")
 args = parser.parse_args()
