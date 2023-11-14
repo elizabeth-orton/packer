@@ -1,6 +1,6 @@
 import argparse
 import os
-import json
+import csv
 #takes in a directory argument from command line
 
 parser = argparse.ArgumentParser()
@@ -23,33 +23,33 @@ def fileDeal(file): #converts a file to just lowercase letters and changes all n
     return nfile
 file = "Hello. www} w"
 #this is what i think the feature vector for the example "file" should look like:
-featureDictGoal = {"hel": 1, "ell": 1, "llo": 1, "lo#": 1, "o#*":1, "#*w":1, "*ww": 1, "www": 1, "ww#":1, "w#*": 1} 
+featureSetGoal = {"hel", "ell", "llo", "lo#", "o#*", "#*w", "*ww", "www", "ww#", "w#*"} 
 #this transforms the file into a directory containing all of the three-character combinaions in the file
 def makeVector(file):
     newfile = fileDeal(file)
-    featureDict = {}
+    featureSet = set(())
     i = 0
     while i < (len(newfile)-2):
-        j = newfile[i:i+3]
-        featureDict[j] = 1
+        featureSet.add(newfile[i:i+3])
         i+=1
-    return featureDict
-featureDict = makeVector(file)
+    return featureSet
+featureSet = makeVector(file)
 #this is a check
-if featureDict == featureDictGoal:
+if featureSet == featureSetGoal:
     print("Success!")
 else:
     print("Not quite!")
 #this does the same transformation on all the files in the directory in the command line
+with open('vectorfile.csv', 'w', newline = '') as vf:
+    writer = csv.writer(vf)
+    writer.writerow(['name', 'vector'])
 for i in filelist:
     try:
         with open(i) as file:
             readfile = file.read()
         efvector = makeVector(readfile)
-        with open("vectorfile", "a") as vf:
-            vf.write(i)
-            vf.write("\n")
-            vf.write(json.dumps(efvector))
-            vf.write("\n")
+        with open('vectorfile.csv', 'a', newline='') as vf:
+            writer = csv.writer(vf)
+            writer.writerow([i, efvector])
     except:
         pass
