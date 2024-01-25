@@ -18,7 +18,7 @@ def fileDeal(file): #converts a file to just lowercase letters and changes all n
             nfile += char.lower()
         elif char.isnumeric():
             nfile += char
-        elif char == " ":
+        elif char.isspace():
             nfile += "*"
         else:
             nfile += "#"
